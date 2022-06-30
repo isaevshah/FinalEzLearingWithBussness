@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProfessorDto {
     private String name;
+    private String username;
+    private String password;
     private String surname;
     private String email;
     private String description;

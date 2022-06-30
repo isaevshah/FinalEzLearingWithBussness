@@ -1,11 +1,21 @@
-package com.example.finalezlearning.business.entity;
+package com.example.finalezlearning.auth.entity;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
 @Table(name = "professor") //, catalog = "finalproject3" //, schema = "public"
 public class Professor {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "professor_id")
@@ -29,19 +39,31 @@ public class Professor {
     @Column(name = "name")
     private String name;
 
-    public Professor(String surname, String email, String description, String detail, String imgurl) {
-        this.professorId = professorId;
+    @Basic
+    @Column(name = "username")
+    private String username;
+
+    @Basic
+    @Column(name = "password")
+    private String password;
+
+    public Professor(String surname, String email, String description, String detail, String imgurl, String name, String username) {
         this.surname = surname;
         this.email = email;
         this.description = description;
         this.detail = detail;
         this.imgurl = imgurl;
         this.name = name;
+        this.username = username;
+        this.password = password;
     }
-
-    public Professor() {
-
-    }
+    @OneToOne(mappedBy = "professor", fetch = FetchType.LAZY)
+    public Activity activity; // действия пользователя (активация и любые другие)
+    @ManyToMany(fetch = FetchType.LAZY) // таблица role ссылается на user через промежуточную таблицу user_role
+    @JoinTable(	name = "PROFESSOR_ROLE",
+            joinColumns = @JoinColumn(name = "professor_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public Long getProfessorId() {
         return professorId;
@@ -110,5 +132,29 @@ public class Professor {
     @Override
     public int hashCode() {
         return Objects.hash(professorId, surname, email, description, detail, imgurl, name);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

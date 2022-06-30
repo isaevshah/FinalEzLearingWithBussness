@@ -1,5 +1,4 @@
 package com.example.finalezlearning.auth.services;
-
 import com.example.finalezlearning.auth.entity.User;
 import lombok.Data;
 import lombok.Getter;
@@ -106,10 +105,7 @@ public class UserDetailsImpl implements UserDetails { // Impl в названи�
 
              */
     @Override
-    public boolean isEnabled() { // нигде в коде не будем вызывать
-        return true; // всегда возвращаем true - см. комментарий для метода
+    public boolean isEnabled() {
+        return  true;
     }
-
-
 }
-

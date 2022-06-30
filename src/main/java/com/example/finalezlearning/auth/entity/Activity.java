@@ -1,7 +1,5 @@
 package com.example.finalezlearning.auth.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
@@ -37,6 +35,11 @@ public class Activity { // название таблицы будет брать
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user; // привязка к пользователю
 
+    @JsonIgnore // чтобы не было бесконечного обратного зацикливания (JSON не сможет сформироваться) - ссылку на Activity для JSON имеем только из User
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "professor_id", referencedColumnName = "professor_id")
+    private Professor professor; // привязка к пользователю
+
     public Long getId() {
         return id;
     }
@@ -67,6 +70,14 @@ public class Activity { // название таблицы будет брать
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 }
 

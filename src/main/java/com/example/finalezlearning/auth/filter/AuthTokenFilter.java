@@ -1,5 +1,6 @@
 package com.example.finalezlearning.auth.filter;
 
+import com.example.finalezlearning.auth.entity.Professor;
 import com.example.finalezlearning.auth.entity.User;
 import com.example.finalezlearning.auth.exception.JwtCommonException;
 import com.example.finalezlearning.auth.services.UserDetailsImpl;
@@ -45,6 +46,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     // допустимые URI, для которых не требуется авторизация (не будет проверяться наличие jwt-кука)
     private List<String> permitURL = Arrays.asList(
             "register", // регистрация нового пользователя
+            "register_professor",
             "login", // аутентификация (логин-пароль)
             "activate-account", // активация нового пользователя
             "resend-activate-email", // запрос о повторной отправки письма активации
@@ -107,7 +109,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                     User user = jwtUtils.getUser(jwt); // получаем user из JWT
 
                     UserDetailsImpl userDetails = new UserDetailsImpl(user); // создаем userDetails вручную, потому что нам неоткуда его взять
-
+                    //ProfessorDetailsImpl professorDetails = new ProfessorDetailsImpl(professor);
                     // Вручную создаем объект UsernamePasswordAuthenticationToken (т.е. не используем пароль и не вызываем метод authenticate, как в методе login - это уже сделано ранее и был создан jwt)
                     // Привязываем UsernamePasswordAuthenticationToken к пользователю
                     // Добавляем объект UsernamePasswordAuthenticationToken в Spring контейнер - тем самым Spring будет видеть, что к пользователю привязан объект authentication - соответственно он успешно залогинен

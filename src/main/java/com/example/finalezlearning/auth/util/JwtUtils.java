@@ -1,5 +1,6 @@
 package com.example.finalezlearning.auth.util;
 
+import com.example.finalezlearning.auth.entity.Professor;
 import com.example.finalezlearning.auth.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
@@ -76,11 +77,15 @@ public class JwtUtils {
 
     public User getUser(String jwt) {
         Map map = (Map)Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).getBody().get("user");
-
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.convertValue(map, User.class);
-
         return user;
+    }
+    public Professor getProfessor(String jwt) {
+        Map map = (Map)Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).getBody().get("user");
+        ObjectMapper mapper = new ObjectMapper();
+        Professor professor = mapper.convertValue(map, Professor.class);
+        return professor;
     }
 
 

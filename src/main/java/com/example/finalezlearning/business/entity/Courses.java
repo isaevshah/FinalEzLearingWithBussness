@@ -1,6 +1,7 @@
 package com.example.finalezlearning.business.entity;
 
 
+import com.example.finalezlearning.auth.entity.Professor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

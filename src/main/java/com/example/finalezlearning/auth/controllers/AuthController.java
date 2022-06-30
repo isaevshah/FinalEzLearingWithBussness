@@ -172,8 +172,6 @@ public class AuthController {
 
         // отправляем клиенту данные пользователя (и jwt-куки в заголовке Set-Cookie)
         return ResponseEntity.ok().headers(responseHeaders).body(userDetails.getUser());
-
-
     }
 
     // обновление пароля (когда клиент ввел новый пароль и отправил его на backend)

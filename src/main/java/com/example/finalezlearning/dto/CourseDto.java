@@ -1,6 +1,6 @@
 package com.example.finalezlearning.dto;
 
-import com.example.finalezlearning.business.entity.Professor;
+import com.example.finalezlearning.auth.entity.Professor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
