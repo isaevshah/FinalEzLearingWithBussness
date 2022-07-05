@@ -1,7 +1,7 @@
 package com.example.finalezlearning.business.services;
 
 import com.example.finalezlearning.business.entity.Courses;
-import com.example.finalezlearning.auth.entity.Professor;
+import com.example.finalezlearning.business.entity.Professor;
 import com.example.finalezlearning.business.repository.CoursesRepository;
 import com.example.finalezlearning.dto.CourseDto;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,10 @@
 package com.example.finalezlearning.business.controllers;
 import com.example.finalezlearning.auth.repository.UserRepository;
 import com.example.finalezlearning.business.entity.Courses;
-import com.example.finalezlearning.auth.entity.Professor;
+import com.example.finalezlearning.business.entity.Professor;
 import com.example.finalezlearning.business.repository.CoursesRepository;
 import com.example.finalezlearning.business.repository.EducationRepository;
-import com.example.finalezlearning.auth.repository.ProfessorRepository;
+import com.example.finalezlearning.business.repository.ProfessorRepository;
 import com.example.finalezlearning.business.services.CoursesService;
 import com.example.finalezlearning.dto.CourseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class CoursesController {
     }
     @PostMapping("/add/{id_professor}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String saveCourses(@PathVariable Long id_professor, CourseDto course, Model model) {
+    public String saveCourses(@PathVariable Long id_professor, CourseDto course,Model model) {
         try {
             Professor current = professorRepository.findById(id_professor).get();
             course.setProfessor(current);
@@ -82,14 +82,14 @@ public class CoursesController {
 
     @PostMapping("/edit/{id_professor}/{id_course}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String updateCourse(@PathVariable Long id_profesor, @PathVariable Long id_curso, Courses courses, Model model, RedirectAttributes attributes) {
+    public String updateCourse(@PathVariable Long id_professor, @PathVariable Long id_course, Courses courses, Model model, RedirectAttributes attributes) {
 
         try {
-            Professor currentProfesor = professorRepository.findById(id_profesor).get();
-            courses.setProfessor(currentProfesor);
+            Professor currentProfessor = professorRepository.findById(id_professor).get();
+            courses.setProfessor(currentProfessor);
 
-            coursesService.update(courses, id_curso);
-            attributes.addAttribute("id_curso", id_curso);
+            coursesService.update(courses, id_course);
+            attributes.addAttribute("id_course", id_course);
 
             return "redirect:/courses/{id_course}";
         } catch (Exception e) {

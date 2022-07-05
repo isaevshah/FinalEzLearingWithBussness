@@ -1,6 +1,5 @@
 package com.example.finalezlearning.auth.filter;
 
-import com.example.finalezlearning.auth.entity.Professor;
 import com.example.finalezlearning.auth.entity.User;
 import com.example.finalezlearning.auth.exception.JwtCommonException;
 import com.example.finalezlearning.auth.services.UserDetailsImpl;
@@ -80,7 +79,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         // Содержит ли запрос любое значение из массива разрешенных URI.
         // Используем эту проверку только для того, чтобы понять, нужно ли нам пытаться считать jwt или нет.
         boolean isRequestToPublicAPI = permitURL.stream().anyMatch(s -> request.getRequestURI().toLowerCase().contains(s));
-
         if (
                 !isRequestToPublicAPI  // если пользователь (с помощью браузера!) обратился к защищенному URI, для которого нужна аутентификация
 //                        && SecurityContextHolder.getContext().getAuthentication() == null  // если пользователь еще не прошел аутентификацию (а значит объект Authentication == null в контейнере Spring, вдруг ранее еще где-то уже произвели аутентификацию)

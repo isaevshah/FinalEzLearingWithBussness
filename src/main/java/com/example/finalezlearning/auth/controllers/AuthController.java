@@ -5,6 +5,7 @@ import com.example.finalezlearning.auth.entity.Role;
 import com.example.finalezlearning.auth.entity.User;
 import com.example.finalezlearning.auth.exception.UserAlreadyActivatedException;
 import com.example.finalezlearning.auth.objects.JsonException;
+import com.example.finalezlearning.business.services.ProfessorService;
 import com.example.finalezlearning.auth.services.UserDetailsImpl;
 import com.example.finalezlearning.auth.services.UserService;
 import com.example.finalezlearning.auth.exception.UserOrEmailExistsException;
@@ -42,6 +43,7 @@ import static com.example.finalezlearning.auth.services.UserService.DEFAULT_ROLE
 public class AuthController {
 
     private UserService userService;
+    private ProfessorService professorService;
     private PasswordEncoder encoder;
     private AuthenticationManager authenticationManager;
 

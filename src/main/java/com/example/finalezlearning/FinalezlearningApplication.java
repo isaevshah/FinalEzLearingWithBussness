@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-
 public class FinalezlearningApplication {
     public static void main(String[] args) {
         SpringApplication.run(FinalezlearningApplication.class, args);

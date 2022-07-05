@@ -1,6 +1,6 @@
 package com.example.finalezlearning.auth.util;
 
-import com.example.finalezlearning.auth.entity.Professor;
+import com.example.finalezlearning.business.entity.Professor;
 import com.example.finalezlearning.auth.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;

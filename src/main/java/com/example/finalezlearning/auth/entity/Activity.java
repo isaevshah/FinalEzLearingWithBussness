@@ -1,5 +1,9 @@
 package com.example.finalezlearning.auth.entity;
+import com.example.finalezlearning.business.entity.Professor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
@@ -15,6 +19,9 @@ import javax.validation.constraints.NotBlank;
 
 @DynamicUpdate
 @Entity
+@Data
+@Getter
+@Setter
 @Table(name="ACTIVITY")
 public class Activity { // название таблицы будет браться автоматически по названию класса с маленькой буквы: activity
 
@@ -37,47 +44,11 @@ public class Activity { // название таблицы будет брать
 
     @JsonIgnore // чтобы не было бесконечного обратного зацикливания (JSON не сможет сформироваться) - ссылку на Activity для JSON имеем только из User
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "professor_id", referencedColumnName = "professor_id")
+    @JoinColumn(name = "professor_id",referencedColumnName = "id")
     private Professor professor; // привязка к пользователю
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public boolean isActivated() {
         return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Professor getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
     }
 }
 

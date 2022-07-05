@@ -1,7 +1,7 @@
 package com.example.finalezlearning.business.repository;
 
 import com.example.finalezlearning.business.entity.Courses;
-import com.example.finalezlearning.auth.entity.Professor;
+import com.example.finalezlearning.business.entity.Professor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

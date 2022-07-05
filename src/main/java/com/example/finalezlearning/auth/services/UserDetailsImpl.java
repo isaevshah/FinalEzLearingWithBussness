@@ -1,5 +1,6 @@
 package com.example.finalezlearning.auth.services;
 import com.example.finalezlearning.auth.entity.User;
+import com.example.finalezlearning.business.entity.Professor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class UserDetailsImpl implements UserDetails { // Impl в названи�
 
     private User user; // чтобы не дублировать в этом классе все поля User - просто помещаем сюда сам объект User, к которому сможем обращаться при необходимости
     private Collection<? extends GrantedAuthority> authorities; // все права пользователя - эту переменную использует Spring контейнер
+   // private Collection<? extends GrantedAuthority> authoritiesForProfessor; // все права пользователя - эту переменную использует Spring контейнер
 
 
     public UserDetailsImpl(User user) {

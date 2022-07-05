@@ -1,9 +1,7 @@
 package com.example.finalezlearning.business.entity;
 
 import com.example.finalezlearning.auth.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +9,8 @@ import java.util.Objects;
 
 @Entity
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "education")  //, schema = "public", catalog = "finalproject"
@@ -36,30 +36,6 @@ public class Education {
         this.user = user;
         this.courses = courses;
     }
-    public Long getEducationId() {
-        return educationId;
-    }
-
-    public void setEducationId(Long educationId) {
-        this.educationId = educationId;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Education that = (Education) o;
-        return Objects.equals(educationId, that.educationId) && Objects.equals(date, that.date);
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(educationId, date,courses);
