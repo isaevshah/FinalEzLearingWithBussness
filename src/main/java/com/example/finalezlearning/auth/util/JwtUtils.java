@@ -47,6 +47,26 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret) // используем алгоритм кодирования HS512 (часто используемый в соотношении скорость-качество) - хешируем все данные секретным ключом-строкой
                 .compact(); // кодируем в формат Base64 (это не шифрование, а просто представление данных в виде удобной строки)
     }
+    public String createAccessTokenForProfessor(Professor professor) {
+
+        Date currentDate = new Date(); // для отсчета времени от текущего момента - для задания expiration
+
+        Map claims = new HashMap<String, String[]>();
+        claims.put("professor", professor);
+        claims.put(Claims.SUBJECT, professor.getId());
+
+        return Jwts.builder()
+
+                // задаем claims
+                // Какие именно данные (claims) добавлять в JWT (решаете сами)
+//                .setSubject((user.getId().toString())) // subject - это одно из стандартных полей jwt (сохраняем неизменяемое id пользователя)
+                .setClaims(claims)
+                .setIssuedAt(currentDate) // время отсчета - текущий момент
+                .setExpiration(new Date(currentDate.getTime() + accessTokenExpiration)) // срок действия access_token
+
+                .signWith(SignatureAlgorithm.HS512, jwtSecret) // используем алгоритм кодирования HS512 (часто используемый в соотношении скорость-качество) - хешируем все данные секретным ключом-строкой
+                .compact(); // кодируем в формат Base64 (это не шифрование, а просто представление данных в виде удобной строки)
+    }
 
     // проверить целостность данных (не истек ли срок jwt и пр.)
     public boolean validate(String jwt) {
@@ -82,7 +102,7 @@ public class JwtUtils {
         return user;
     }
     public Professor getProfessor(String jwt) {
-        Map map = (Map)Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).getBody().get("user");
+        Map map = (Map)Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).getBody().get("professor");
         ObjectMapper mapper = new ObjectMapper();
         Professor professor = mapper.convertValue(map, Professor.class);
         return professor;

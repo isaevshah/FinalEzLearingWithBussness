@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UserService {
-    public static final String DEFAULT_ROLE = "USER";
+    public static final String DEFAULT_ROLE = "ROLE_USER";
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;

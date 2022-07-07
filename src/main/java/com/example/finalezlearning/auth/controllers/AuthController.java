@@ -101,6 +101,7 @@ public class AuthController {
 
     }
 
+
     // регистрация нового пользователя
     @PutMapping("/register")
     public ResponseEntity register(@Valid @RequestBody User user) throws RoleNotFoundException { // здесь параметр user используется, чтобы передать все данные пользователя для регистрации
@@ -120,8 +121,12 @@ public class AuthController {
         activity.setUuid(UUID.randomUUID().toString());
 
         userService.register(user, activity); // сохранить пользователя в БД
-
+        //return "ask-details";
         return ResponseEntity.ok().build(); // просто отправляем статус 200-ОК (без каких-либо данных) - значит регистрация выполнилась успешно
+    }
+    @RequestMapping("showDetails")
+    public String showDetails(){
+        return "show-details";
     }
 
     // активация пользователя (чтобы мог авторизоваться и работать дальше с приложением)

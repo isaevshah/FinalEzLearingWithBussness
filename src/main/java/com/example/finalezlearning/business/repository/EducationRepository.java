@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface EducationRepository extends JpaRepository<Education, Long> {
     List<Education> findAllByCourses(Courses courses);
-//    List<Education> findAllByUsername(User user);
+   // List<Education> findAllByUsername(User user);
 //    Education findByCoursesAndUsername(Courses courses, User user);
 }

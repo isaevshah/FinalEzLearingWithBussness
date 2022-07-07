@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 public class EducationService {
@@ -25,17 +24,17 @@ public class EducationService {
         this.userRepository = userRepository;
     }
 
-//    public void createEducation(Long id_course, String username) throws Exception {
-//        Courses courses = coursesRepository.findById(id_course).get();
-//        User user = userRepository.findByUsername(username)// change myself
-//                .orElseThrow(() -> new Exception("USER NOT FOUND"));
-//
-//        if (null != educationRepository.findByCoursesAndUsername(courses, user)) {
-//            throw new Exception("You are already enrolled in this course");//Вы уже зарегистрированы на этот курс
-//        }
-//        LocalDate date = LocalDate.now(); //возвращает объект, который представляет текущую дату
-//        Education education = new Education(date, user, courses);
-//        educationRepository.save(education);
-//    }
+    public void createEducation(Long id_course, String username) throws Exception {
+        Courses courses = coursesRepository.findById(id_course).get();
+        User user = userRepository.findByUsername(username)// change myself
+                .orElseThrow(() -> new Exception("USER NOT FOUND"));
+
+        if (null != educationRepository.findAllByCourses(courses)) {
+            throw new Exception("You are already enrolled in this course");//Вы уже зарегистрированы на этот курс
+        }
+        LocalDate date = LocalDate.now(); //возвращает объект, который представляет текущую дату
+        Education education = new Education(date, user, courses);
+        educationRepository.save(education);
+    }
 }
 

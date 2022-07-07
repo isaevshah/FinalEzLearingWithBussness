@@ -1,8 +1,7 @@
 package com.example.finalezlearning.auth.services;
 import com.example.finalezlearning.auth.entity.User;
 import com.example.finalezlearning.auth.repository.UserRepository;
-import com.example.finalezlearning.business.entity.Professor;
-import com.example.finalezlearning.business.repository.ProfessorRepository;
+import com.example.finalezlearning.auth.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

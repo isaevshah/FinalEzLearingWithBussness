@@ -1,5 +1,6 @@
 package com.example.finalezlearning.business.entity;
 
+import com.example.finalezlearning.auth.entity.Activity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,10 @@ public class Professor {
     @Basic
     @Column(name = "surname")
     private String surname;
+
+    @OneToOne(mappedBy = "professor", fetch = FetchType.LAZY)
+    public Activity activity; // действия пользователя (активация и любые другие)
+    //@Email // встроенный валидатор на правильное написание email
     @Basic
     @Column(name = "email")
     private String email;

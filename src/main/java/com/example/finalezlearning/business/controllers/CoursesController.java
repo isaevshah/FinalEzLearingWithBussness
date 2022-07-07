@@ -1,4 +1,5 @@
 package com.example.finalezlearning.business.controllers;
+
 import com.example.finalezlearning.auth.repository.UserRepository;
 import com.example.finalezlearning.business.entity.Courses;
 import com.example.finalezlearning.business.entity.Professor;
@@ -8,12 +9,14 @@ import com.example.finalezlearning.business.repository.ProfessorRepository;
 import com.example.finalezlearning.business.services.CoursesService;
 import com.example.finalezlearning.dto.CourseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -39,32 +42,34 @@ public class CoursesController {
     }
 
     @GetMapping("/add/{id_professor}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String addCourses(@PathVariable Long id_professor, Model model) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity addCourses(@PathVariable Long id_professor, Model model) {
         try {
             Professor current = professorRepository.findById(id_professor).get();
             model.addAttribute("courses");
             model.addAttribute("professor", current);
-            return "courses/courses-add";
+//            return "courses/courses-add";
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", e);
-            return "error";
+            return ResponseEntity.status(101).build();
         }
     }
-    @PostMapping("/add/{id_professor}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String saveCourses(@PathVariable Long id_professor, CourseDto course,Model model) {
+    @PostMapping("/save/{id_professor}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity saveCourses(@PathVariable Long id_professor, @Valid @RequestBody Courses course, Model model) {
         try {
             Professor current = professorRepository.findById(id_professor).get();
             course.setProfessor(current);
             coursesService.create(course);
-            return "redirect:/courses";
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", e);
-            return "error";
+            return ResponseEntity.status(101).build();
         }
+
     }
     @GetMapping("/edit/{id_course}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

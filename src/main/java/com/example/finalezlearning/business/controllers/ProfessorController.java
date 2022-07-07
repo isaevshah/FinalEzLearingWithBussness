@@ -1,9 +1,5 @@
 package com.example.finalezlearning.business.controllers;
 
-import com.example.finalezlearning.auth.entity.Activity;
-import com.example.finalezlearning.auth.entity.User;
-import com.example.finalezlearning.auth.exception.UserOrEmailExistsException;
-import com.example.finalezlearning.auth.services.UserDetailsImpl;
 import com.example.finalezlearning.auth.util.CookieUtils;
 import com.example.finalezlearning.auth.util.JwtUtils;
 import com.example.finalezlearning.business.entity.Courses;
@@ -11,25 +7,17 @@ import com.example.finalezlearning.business.entity.Professor;
 import com.example.finalezlearning.business.repository.CoursesRepository;
 import com.example.finalezlearning.business.repository.ProfessorRepository;
 import com.example.finalezlearning.business.services.ProfessorService;
-import org.springframework.http.HttpCookie;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/professors")
 public class ProfessorController {
     private ProfessorRepository professorRepository;
@@ -52,52 +40,18 @@ public class ProfessorController {
         this.jwtUtils = jwtUtils;
         this.cookieUtils = cookieUtils;
     }
-    @PutMapping("/add")
-    //@PreAuthorize("hasRole('ROlE_USER')")
-    public ResponseEntity addProfessor(@Valid @RequestBody Professor professor){
-
-        if (professorService.professorExists(professor.getUsername(), professor.getEmail())) {
-            throw new UserOrEmailExistsException("User or email already exists");
-        }
-        Activity activity = new Activity();
-        activity.setProfessor(professor);
-        activity.setUuid(UUID.randomUUID().toString());
-
-        professorService.addProfessor(professor, activity); // сохранить пользователя в БД
-        return ResponseEntity.ok().build(); // просто отправляем статус 200-ОК (без каких-либо данных) - значит регистрация выполнилась успешно
+    @GetMapping("/add")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity addProfesor(Model model) {
+            model.addAttribute("professor", new Professor());
+            return ResponseEntity.ok().build();
     }
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@Valid @RequestBody Professor professor) {
-
-        // проверяем логин-пароль
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(professor.getUsername(), professor.getPassword()));
-
-        // добавляем Spring-контейнер инфу об авторизации
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        // UserDetailsImpl - спец объект, который хранится в Spring контейнере и содержит данные пользователя
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        // активирован пользователь или нет
-        if(!userDetails.isActivated()) {
-            throw new DisabledException("User disabled"); // клиенту отправим ошибку что пользователь не активен
-        }
-
-        String jwt = jwtUtils.createAccessToken(userDetails.getUser());
-
-        userDetails.getUser().setPassword(null); //пароль нужен только один раз для аутентификации
-
-        HttpCookie cookie = cookieUtils.createJwtCookie(jwt); //server-side cookie
-
-        HttpHeaders responseHeaders = new HttpHeaders(); // объект для добавления заголовка в response
-        responseHeaders.add(HttpHeaders.SET_COOKIE, cookie.toString()); // добавляем кук в header
-
-//        return ResponseEntity.ok().body(userDetails.getUser());
-
-        // отправляем клиенту данные пользователя (и jwt-куки в заголовке Set-Cookie)
-        return ResponseEntity.ok().headers(responseHeaders).body(userDetails.getUser());
+    @PostMapping("/save")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity saveProfesor(@Valid @RequestBody  Professor professor) {
+        professorService.create(professor);
+        return ResponseEntity.ok().build();
     }
-
     @GetMapping("/edit/{id_professor}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getProfessorForUpdate(@PathVariable Long id_professor, Model model) {

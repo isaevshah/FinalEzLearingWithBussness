@@ -1,7 +1,6 @@
 package com.example.finalezlearning.business.services;
 
 
-import com.example.finalezlearning.auth.entity.Activity;
 import com.example.finalezlearning.auth.repository.ActivityRepository;
 import com.example.finalezlearning.business.entity.Professor;
 import com.example.finalezlearning.business.repository.ProfessorRepository;
@@ -20,15 +19,18 @@ public class ProfessorService {
         this.activityRepository = activityRepository;
     }
 
-    public boolean professorExists(String username, String email) {
-        if (professorRepository.existsByUsername(username) || professorRepository.existsByEmail(email)) {
-            return true;
-        }
-        return false;
-    }
-    public void addProfessor(Professor professor, Activity activity){
+//    public void create(ProfessorDto professorDto) {
+//        String name = professorDto.getName();
+//        String surname = professorDto.getSurname();
+//        String email = professorDto.getEmail();
+//        String description = professorDto.getDescription();
+//        String imgurl = professorDto.getImgurl();
+//        Professor professor = new Professor(name, surname, email, description, imgurl);
+//        professorRepository.save(professor);
+//
+//    }
+    public void create(Professor professor){
         professorRepository.save(professor);
-        activityRepository.save(activity);
     }
     public List<Professor> getAll(){
         return professorRepository.findAll();
